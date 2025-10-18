@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Container, Typography, Box, Pagination } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Pagination,
+  CircularProgress,
+} from "@mui/material";
 import SearchBar from "../components/SearchBar";
 import SearchList from "../components/SearchList";
 import client from "../utils/client";
@@ -12,6 +18,10 @@ function SearchScreen() {
   const [queried, setQueried] = React.useState(false);
   const [page, setPage] = React.useState(1);
 
+  const showData = queryData && !query;
+  const showLoading = !queryData && query;
+  console.log(queryData === null, query === null);
+
   function changePage(e, v) {
     client({ query: query, page: v - 1 }).then((data) => {
       setQueryData(data.content);
@@ -21,11 +31,13 @@ function SearchScreen() {
 
   React.useEffect(() => {
     if (query) {
+      setQueryData(null);
       client({ query: query }).then((data) => {
         setQueryData(data.content);
         setQueryPageable(data.pageable);
         setPage(1);
         setQueried(true);
+        setQuery(null);
       });
     }
   }, [query]);
@@ -37,7 +49,11 @@ function SearchScreen() {
       </Typography>
       <SearchBar setQuery={setQuery} />
       <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {queryData ? (
+        {!queried ? (
+          <Typography variant="h3">Search for a Digimon.</Typography>
+        ) : showLoading ? (
+          <CircularProgress />
+        ) : showData ? (
           <>
             <SearchList queryData={queryData} />
             <Pagination
@@ -46,10 +62,8 @@ function SearchScreen() {
               onChange={changePage}
             />
           </>
-        ) : queried ? (
-          <Typography variant="h3">No Digimon found.</Typography>
         ) : (
-          <Typography variant="h3">Search for a Digimon.</Typography>
+          <Typography variant="h3">No Digimon found.</Typography>
         )}
       </Box>
     </Container>
