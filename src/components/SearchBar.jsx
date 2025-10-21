@@ -13,8 +13,7 @@ function SearchBar({ setQuery }) {
       style={{ display: "flex", justifyContent: "center" }}
     >
       <TextField
-        label="Search Digimon"
-        placeholder="Agumon..."
+        placeholder="Search Digimon"
         variant="outlined"
         sx={{ width: "100%" }}
       ></TextField>

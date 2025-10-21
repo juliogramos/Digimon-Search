@@ -40,7 +40,7 @@ function DigimonDisplay({ digimonInfo }) {
       <IconButton aria-label="Home" href="/" sx={{ p: 0, mt: 2 }}>
         <Home />
       </IconButton>
-      <Grid container spacing={10} sx={{ width: "100%" }}>
+      <Grid container spacing={0} sx={{ width: "100%" }}>
         <Grid size={6} sx={{ ...flexColumnCenter, gap: 2 }}>
           <Box
             sx={{
@@ -93,7 +93,7 @@ function DigimonDisplay({ digimonInfo }) {
           sx={{
             ...flexColumnCenter,
             borderLeft: "2px solid",
-            borderColor: "secondary.main",
+            borderColor: "primary.main",
             pl: 4,
             scrollbarGutter: "stable both-edges",
           }}

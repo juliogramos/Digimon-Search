@@ -6,15 +6,17 @@ import App from "./App.jsx";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#013e87",
+      main: "#1251d0",
     },
     secondary: {
       main: "#2e74c9",
     },
   },
   typography: {
+    fontFamily: ["Montserrat", "sans-serif"].join(","),
     h1: {
-      fontSize: "2.75rem",
+      fontSize: "2.1em",
+      letterSpacing: "0.18em",
       fontWeight: 600,
       marginLeft: 4,
       marginRight: 4,
@@ -22,7 +24,7 @@ const theme = createTheme({
       color: "primary.main",
     },
     h2: {
-      fontSize: "1.5rem",
+      fontSize: "1.5em",
       fontWeight: 600,
     },
     h3: {

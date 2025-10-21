@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import SearchScreen from "./screens/SearchScreen";
 import DigimonScreen from "./screens/DigimonScreen";
+import "./index.css";
 
 function App() {
   return (

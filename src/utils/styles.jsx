@@ -1,10 +1,13 @@
 const mainContainerSx = {
-  height: "90vh",
-  my: 2,
+  height: "100%",
   display: "flex",
   flexDirection: "column",
   gap: 2,
+  justifyContent: "center",
   alignItems: "center",
+  overflow: "hidden",
+  p: 1,
+  margin: "0 auto",
 };
 
 const flexColumnCenter = {
@@ -13,4 +16,12 @@ const flexColumnCenter = {
   alignItems: "center",
 };
 
-export { mainContainerSx, flexColumnCenter };
+const topBottomBg = {
+  backgroundColor: "white",
+  p: 1,
+  borderTop: "1px solid",
+  borderBottom: "1px solid",
+  borderColor: "primary.main",
+};
+
+export { mainContainerSx, flexColumnCenter, topBottomBg };

@@ -9,7 +9,11 @@ import {
 import SearchBar from "../components/SearchBar";
 import SearchList from "../components/SearchList";
 import client from "../utils/client";
-import { mainContainerSx } from "../utils/styles";
+import {
+  flexColumnCenter,
+  mainContainerSx,
+  topBottomBg,
+} from "../utils/styles";
 
 function SearchScreen() {
   const [query, setQuery] = React.useState(null);
@@ -17,53 +21,65 @@ function SearchScreen() {
   const [queryPageable, setQueryPageable] = React.useState(null);
   const [queried, setQueried] = React.useState(false);
   const [page, setPage] = React.useState(1);
-
-  const showData = queryData && !query;
-  const showLoading = !queryData && query;
-  console.log(queryData === null, query === null);
+  const [loading, setLoading] = React.useState(false);
 
   function changePage(e, v) {
+    setLoading(true);
     client({ query: query, page: v - 1 }).then((data) => {
+      console.log(data);
       setQueryData(data.content);
       setPage(v);
+      setLoading(false);
     });
   }
 
   React.useEffect(() => {
     if (query) {
+      setQueried(true);
+      setLoading(true);
       setQueryData(null);
       client({ query: query }).then((data) => {
         setQueryData(data.content);
         setQueryPageable(data.pageable);
         setPage(1);
-        setQueried(true);
-        setQuery(null);
+        setLoading(false);
       });
     }
   }, [query]);
 
   return (
     <Container sx={mainContainerSx}>
-      <Typography variant="h1" color="primary.main">
-        Digimon Search
-      </Typography>
-      <SearchBar setQuery={setQuery} />
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-        {!queried ? (
-          <Typography variant="h3">Search for a Digimon.</Typography>
-        ) : showLoading ? (
+      <Box
+        sx={{
+          ...flexColumnCenter,
+          ...topBottomBg,
+          gap: 1,
+          width: "100vw",
+        }}
+      >
+        <Typography variant="h1" color="primary.main">
+          Digimon Search
+        </Typography>
+        <SearchBar setQuery={setQuery} />
+        {queryData ? (
+          <Pagination
+            count={Math.ceil(queryPageable.totalElements / 5)}
+            page={page}
+            onChange={changePage}
+          />
+        ) : null}
+      </Box>
+      <Box
+        sx={{ display: "flex", flexDirection: "row", gap: 4, flexWrap: "wrap" }}
+      >
+        {!queried ? null : loading ? (
           <CircularProgress />
-        ) : showData ? (
-          <>
-            <SearchList queryData={queryData} />
-            <Pagination
-              count={Math.ceil(queryPageable.totalElements / 5)}
-              page={page}
-              onChange={changePage}
-            />
-          </>
+        ) : queryData ? (
+          <SearchList queryData={queryData} />
         ) : (
-          <Typography variant="h3">No Digimon found.</Typography>
+          <Typography variant="h3" color="primary.main" sx={topBottomBg}>
+            No Digimon found.
+          </Typography>
         )}
       </Box>
     </Container>
