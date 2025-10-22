@@ -4,13 +4,20 @@ import client from "../utils/client";
 import { Container, CircularProgress } from "@mui/material";
 import { mainContainerSx } from "../utils/styles";
 import DigimonDisplay from "../components/DigimonDisplay";
+import DigimonErrorFallback from "../components/DigimonErrorFallback";
 
 function DigimonScreen() {
   const [digimonInfo, setDigimonInfo] = React.useState(null);
+  const [error, setError] = React.useState(null);
   let { digimonId } = useParams();
 
   React.useEffect(() => {
     client({ id: digimonId }).then((data) => {
+      if (data.error) {
+        setError(data.message);
+        return;
+      }
+
       setDigimonInfo({
         id: data.id,
         name: data.name,
@@ -32,6 +39,8 @@ function DigimonScreen() {
     <Container sx={mainContainerSx}>
       {digimonInfo ? (
         <DigimonDisplay digimonInfo={digimonInfo} />
+      ) : error ? (
+        <DigimonErrorFallback error={error} />
       ) : (
         <CircularProgress />
       )}

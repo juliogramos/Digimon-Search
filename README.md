@@ -8,4 +8,5 @@ Queries from [DAPI](https://digi-api.com/).
 
 ## Todo:
 
-- [ ] Error Boundary
+- [x] Error Handling (needs more testing)
+- [ ] Refactor for readability and modularity

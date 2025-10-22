@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Box,
   Grid,
@@ -36,12 +35,13 @@ function DigimonDisplay({ digimonInfo }) {
         gap: 2,
         maxWidth: 1000,
       }}
+      className="fadeIn"
     >
       <IconButton aria-label="Home" href="/" sx={{ p: 0, mt: 2 }}>
         <Home />
       </IconButton>
       <Grid container spacing={0} sx={{ width: "100%" }}>
-        <Grid size={6} sx={{ ...flexColumnCenter, gap: 2 }}>
+        <Grid size={6} sx={{ ...flexColumnCenter, gap: 2, px: 1 }}>
           <Box
             sx={{
               display: "flex",

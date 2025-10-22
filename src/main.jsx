@@ -11,6 +11,9 @@ const theme = createTheme({
     secondary: {
       main: "#2e74c9",
     },
+    error: {
+      main: "#ff0000",
+    },
   },
   typography: {
     fontFamily: ["Montserrat", "sans-serif"].join(","),

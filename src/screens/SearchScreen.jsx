@@ -14,6 +14,7 @@ import {
   mainContainerSx,
   topBottomBg,
 } from "../utils/styles";
+import DigimonErrorFallback from "../components/DigimonErrorFallback";
 
 function SearchScreen() {
   const [query, setQuery] = React.useState(null);
@@ -22,6 +23,7 @@ function SearchScreen() {
   const [queried, setQueried] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   function changePage(e, v) {
     setLoading(true);
@@ -38,12 +40,15 @@ function SearchScreen() {
       setQueried(true);
       setLoading(true);
       setQueryData(null);
-      client({ query: query }).then((data) => {
-        setQueryData(data.content);
-        setQueryPageable(data.pageable);
-        setPage(1);
-        setLoading(false);
-      });
+      client({ query: query }).then(
+        (data) => {
+          setQueryData(data.content);
+          setQueryPageable(data.pageable);
+          setPage(1);
+          setLoading(false);
+        },
+        (error) => setError(error)
+      );
     }
   }, [query]);
 
@@ -72,7 +77,9 @@ function SearchScreen() {
       <Box
         sx={{ display: "flex", flexDirection: "row", gap: 4, flexWrap: "wrap" }}
       >
-        {!queried ? null : loading ? (
+        {error ? (
+          <DigimonErrorFallback error={error} />
+        ) : !queried ? null : loading ? (
           <CircularProgress />
         ) : queryData ? (
           <SearchList queryData={queryData} />

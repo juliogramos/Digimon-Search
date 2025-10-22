@@ -29,3 +29,16 @@ body {
   background-size: calc(2640px / 1.375) auto;
   animation: bgAnim 40s infinite linear;
 }
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation: fadein 0.5s;
+}

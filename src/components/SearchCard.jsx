@@ -15,6 +15,7 @@ function SearchCard({ name, image, id }) {
         border: "1px solid",
         borderColor: "primary.main",
       }}
+      className="fadeIn"
     >
       <Box
         sx={{
