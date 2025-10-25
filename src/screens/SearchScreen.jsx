@@ -15,42 +15,28 @@ import {
   topBottomBg,
 } from "../utils/styles";
 import DigimonErrorFallback from "../components/DigimonErrorFallback";
+import { useAsync } from "../utils/useAsync";
 
 function SearchScreen() {
+  const { data, error, run, isLoading, isError, isSuccess } = useAsync();
   const [query, setQuery] = React.useState(null);
-  const [queryData, setQueryData] = React.useState(null);
-  const [queryPageable, setQueryPageable] = React.useState(null);
   const [queried, setQueried] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(null);
+
+  function submitFunction(newQuery) {
+    setQueried(true);
+    setQuery(newQuery);
+  }
 
   function changePage(e, v) {
-    setLoading(true);
-    client({ query: query, page: v - 1 }).then((data) => {
-      console.log(data);
-      setQueryData(data.content);
-      setPage(v);
-      setLoading(false);
-    });
+    setPage(v);
+    run(client({ query: query, page: v - 1 }));
   }
 
   React.useEffect(() => {
-    if (query) {
-      setQueried(true);
-      setLoading(true);
-      setQueryData(null);
-      client({ query: query }).then(
-        (data) => {
-          setQueryData(data.content);
-          setQueryPageable(data.pageable);
-          setPage(1);
-          setLoading(false);
-        },
-        (error) => setError(error)
-      );
-    }
-  }, [query]);
+    if (!queried) return;
+    run(client({ query: query }));
+  }, [queried, query, run]);
 
   return (
     <Container sx={mainContainerSx}>
@@ -65,10 +51,10 @@ function SearchScreen() {
         <Typography variant="h1" color="primary.main">
           Digimon Search
         </Typography>
-        <SearchBar setQuery={setQuery} />
-        {queryData ? (
+        <SearchBar submitFunction={submitFunction} />
+        {data?.pageable ? (
           <Pagination
-            count={Math.ceil(queryPageable.totalElements / 5)}
+            count={Math.ceil(data.pageable.totalElements / 5)}
             page={page}
             onChange={changePage}
           />
@@ -77,17 +63,13 @@ function SearchScreen() {
       <Box
         sx={{ display: "flex", flexDirection: "row", gap: 4, flexWrap: "wrap" }}
       >
-        {error ? (
-          <DigimonErrorFallback error={error} />
-        ) : !queried ? null : loading ? (
+        {isLoading ? (
           <CircularProgress />
-        ) : queryData ? (
-          <SearchList queryData={queryData} />
-        ) : (
-          <Typography variant="h3" color="primary.main" sx={topBottomBg}>
-            No Digimon found.
-          </Typography>
-        )}
+        ) : isError ? (
+          <DigimonErrorFallback error={error} />
+        ) : isSuccess ? (
+          <SearchList queryData={data.content} />
+        ) : null}
       </Box>
     </Container>
   );

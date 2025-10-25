@@ -1,6 +1,10 @@
 const baseUrl = `https://digi-api.com/api/v1/digimon`;
 
-async function client({ query, page, id }) {
+function client({ query, page, id }) {
+  const config = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
   let target = baseUrl;
   if (query) {
     target += `?name=${query}`;
@@ -10,11 +14,14 @@ async function client({ query, page, id }) {
   } else if (id) {
     target += `/${id}`;
   }
-  const response = await fetch(target, {
-    headers: { "Content-Type": "application/json" },
+  return fetch(target, config).then(async (response) => {
+    const data = await response.json();
+    if (!response.error) {
+      return data;
+    } else {
+      return Promise.reject(data);
+    }
   });
-  const json = await response.json();
-  return json;
 }
 
 export default client;

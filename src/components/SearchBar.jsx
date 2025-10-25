@@ -1,10 +1,10 @@
 import { TextField, IconButton } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
-function SearchBar({ setQuery }) {
+function SearchBar({ submitFunction }) {
   function handleSubmit(e) {
     e.preventDefault();
-    setQuery(e.target[0].value);
+    submitFunction(e.target[0].value);
   }
 
   return (
