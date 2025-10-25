@@ -1,50 +1,16 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
+import defaultTheme from "./themes/defaultTheme.jsx";
+import CssBaseline from "@mui/material/CssBaseline";
 import App from "./App.jsx";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1251d0",
-    },
-    secondary: {
-      main: "#2e74c9",
-    },
-    error: {
-      main: "#ff0000",
-    },
-  },
-  typography: {
-    fontFamily: ["Montserrat", "sans-serif"].join(","),
-    h1: {
-      fontSize: "2.1em",
-      letterSpacing: "0.18em",
-      fontWeight: 600,
-      marginLeft: 4,
-      marginRight: 4,
-      textAlign: "center",
-      color: "primary.main",
-    },
-    h2: {
-      fontSize: "1.5em",
-      fontWeight: 600,
-    },
-    h3: {
-      fontSize: "1.25rem",
-      fontWeight: 600,
-      marginLeft: 4,
-      marginRight: 4,
-      textAlign: "center",
-      color: "primary.main",
-    },
-  },
-});
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline>
+        <App />
+      </CssBaseline>
     </ThemeProvider>
   </StrictMode>
 );

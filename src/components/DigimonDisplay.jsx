@@ -8,7 +8,7 @@ import {
   Link,
 } from "@mui/material";
 import { Home, QuestionMark } from "@mui/icons-material";
-import { flexColumnCenter } from "../utils/styles";
+import { fadeInAnimation, flexColumnCenter } from "../utils/styles";
 
 function DigimonDisplay({ digimonInfo }) {
   function extractDigimonInfo(digimonInfo) {
@@ -47,13 +47,11 @@ function DigimonDisplay({ digimonInfo }) {
     <Paper
       elevation={4}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        ...flexColumnCenter,
+        ...fadeInAnimation,
         gap: 2,
         maxWidth: 1000,
       }}
-      className="fadeIn"
     >
       <IconButton aria-label="Home" href="/" sx={{ p: 0, mt: 2 }}>
         <Home />
@@ -114,7 +112,7 @@ function DigimonDisplay({ digimonInfo }) {
           size={6}
           sx={{
             ...flexColumnCenter,
-            borderLeft: "2px solid",
+            borderLeft: "1px solid",
             borderColor: "primary.main",
             pl: 4,
             scrollbarGutter: "stable both-edges",

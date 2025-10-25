@@ -1,15 +1,3 @@
-const mainContainerSx = {
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  gap: 2,
-  justifyContent: "center",
-  alignItems: "center",
-  overflow: "hidden",
-  p: 1,
-  margin: "0 auto",
-};
-
 const flexColumnCenter = {
   display: "flex",
   flexDirection: "column",
@@ -24,4 +12,22 @@ const topBottomBg = {
   borderColor: "primary.main",
 };
 
-export { mainContainerSx, flexColumnCenter, topBottomBg };
+const fadeInAnimation = {
+  "@keyframes fadeIn": {
+    "0%": {
+      opacity: 0,
+    },
+    "100%": {
+      opacity: 1,
+    },
+  },
+  animation: "fadeIn 0.5s",
+};
+
+const justifyCenterFull = {
+  justifyContent: "center",
+  width: "100%",
+  height: "100%",
+};
+
+export { flexColumnCenter, topBottomBg, fadeInAnimation, justifyCenterFull };

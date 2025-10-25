@@ -1,28 +1,28 @@
 import { Typography, Avatar, Card, Link, Box } from "@mui/material";
-import { flexColumnCenter } from "../utils/styles";
+import {
+  fadeInAnimation,
+  flexColumnCenter,
+  justifyCenterFull,
+} from "../utils/styles";
 
 function SearchCard({ name, image, id }) {
   const linkTarget = `/${id}`;
   return (
     <Card
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        ...flexColumnCenter,
+        ...fadeInAnimation,
         justifyContent: "center",
         gap: 1,
         flex: "1 1 0px;",
         border: "1px solid",
         borderColor: "primary.main",
       }}
-      className="fadeIn"
     >
       <Box
         sx={{
           ...flexColumnCenter,
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
+          ...justifyCenterFull,
           paddingTop: 1,
         }}
       >
@@ -32,9 +32,7 @@ function SearchCard({ name, image, id }) {
         href={linkTarget}
         sx={{
           ...flexColumnCenter,
-          justifyContent: "center",
-          width: "100%",
-          height: "100%",
+          ...justifyCenterFull,
           p: 1,
           transition: "all 0.2s",
           ":hover": {
