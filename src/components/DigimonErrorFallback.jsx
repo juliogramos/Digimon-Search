@@ -16,7 +16,7 @@ function DigimonErrorFallback({ error }) {
       <Typography variant="h1" color="error.main">
         Error!
       </Typography>
-      <Typography>{error}</Typography>
+      <Typography>{error.message}</Typography>
       <Link href="/">
         <Typography>Back Home</Typography>
       </Link>

@@ -1,19 +1,9 @@
 import * as React from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Pagination,
-  CircularProgress,
-} from "@mui/material";
+import { Typography, Box, Pagination, CircularProgress } from "@mui/material";
 import SearchBar from "../components/SearchBar";
 import SearchList from "../components/SearchList";
 import client from "../utils/client";
-import {
-  flexColumnCenter,
-  mainContainerSx,
-  topBottomBg,
-} from "../utils/styles";
+import { flexColumnCenter, topBottomBg } from "../utils/styles";
 import DigimonErrorFallback from "../components/DigimonErrorFallback";
 import { useAsync } from "../utils/useAsync";
 
@@ -39,7 +29,7 @@ function SearchScreen() {
   }, [queried, query, run]);
 
   return (
-    <Container sx={mainContainerSx}>
+    <>
       <Box
         sx={{
           ...flexColumnCenter,
@@ -71,7 +61,7 @@ function SearchScreen() {
           <SearchList queryData={data.content} />
         ) : null}
       </Box>
-    </Container>
+    </>
   );
 }
 

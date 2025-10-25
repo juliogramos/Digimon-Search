@@ -1,50 +1,28 @@
 import * as React from "react";
 import { useParams } from "react-router";
 import client from "../utils/client";
-import { Container, CircularProgress } from "@mui/material";
-import { mainContainerSx } from "../utils/styles";
+import { CircularProgress } from "@mui/material";
 import DigimonDisplay from "../components/DigimonDisplay";
 import DigimonErrorFallback from "../components/DigimonErrorFallback";
+import { useAsync } from "../utils/useAsync";
 
 function DigimonScreen() {
-  const [digimonInfo, setDigimonInfo] = React.useState(null);
-  const [error, setError] = React.useState(null);
   let { digimonId } = useParams();
-
+  const { data, error, run, isLoading, isError, isSuccess } = useAsync();
   React.useEffect(() => {
-    client({ id: digimonId }).then((data) => {
-      if (data.error) {
-        setError(data.message);
-        return;
-      }
-
-      setDigimonInfo({
-        id: data.id,
-        name: data.name,
-        image: data.images[0].href,
-        level: data.levels[0].level,
-        type: data.types[0].type,
-        attribute: data.attributes[0].attribute,
-        field: data.fields[0],
-        releaseDate: data.releaseDate,
-        description: data.descriptions.find((desc) => desc.language === "en_us")
-          .description,
-        prevos: data.priorEvolutions,
-        evos: data.nextEvolutions,
-      });
-    });
-  }, [digimonId]);
+    run(client({ id: digimonId }));
+  }, [digimonId, run]);
 
   return (
-    <Container sx={mainContainerSx}>
-      {digimonInfo ? (
-        <DigimonDisplay digimonInfo={digimonInfo} />
-      ) : error ? (
-        <DigimonErrorFallback error={error} />
-      ) : (
+    <>
+      {isLoading ? (
         <CircularProgress />
-      )}
-    </Container>
+      ) : isError ? (
+        <DigimonErrorFallback error={error} />
+      ) : isSuccess ? (
+        <DigimonDisplay digimonInfo={data} />
+      ) : null}
+    </>
   );
 }
 

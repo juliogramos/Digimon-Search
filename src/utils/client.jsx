@@ -16,7 +16,8 @@ function client({ query, page, id }) {
   }
   return fetch(target, config).then(async (response) => {
     const data = await response.json();
-    if (!response.error) {
+    if (response.ok) {
+      console.log(data);
       return data;
     } else {
       return Promise.reject(data);

@@ -7,10 +7,28 @@ import {
   IconButton,
   Link,
 } from "@mui/material";
-import { Home } from "@mui/icons-material";
+import { Home, QuestionMark } from "@mui/icons-material";
 import { flexColumnCenter } from "../utils/styles";
 
 function DigimonDisplay({ digimonInfo }) {
+  function extractDigimonInfo(digimonInfo) {
+    return {
+      id: digimonInfo.id ?? "Unknown ID",
+      name: digimonInfo.name ?? "Unknown Name",
+      image: digimonInfo.images[0].href ?? null,
+      level: digimonInfo.levels[0].level ?? "Unknown Level",
+      type: digimonInfo.types[0].type ?? "No Type",
+      attribute: digimonInfo.attributes[0].attribute ?? "No Attribute",
+      field: digimonInfo.fields[0],
+      releaseDate: digimonInfo.releaseDate ?? "Unreleased",
+      description:
+        digimonInfo.descriptions.find((desc) => desc.language === "en_us")
+          .description ?? "No description yet.",
+      prevos: digimonInfo.priorEvolutions,
+      evos: digimonInfo.nextEvolutions,
+    };
+  }
+
   const {
     id,
     name,
@@ -23,7 +41,7 @@ function DigimonDisplay({ digimonInfo }) {
     description,
     prevos,
     evos,
-  } = digimonInfo;
+  } = extractDigimonInfo(digimonInfo);
 
   return (
     <Paper
@@ -55,8 +73,12 @@ function DigimonDisplay({ digimonInfo }) {
             <Typography variant="h1" color="primary.main">
               {name}
             </Typography>
-            <Tooltip title={field.field}>
-              <img src={field.image} alt={field.field} />
+            <Tooltip title={field?.field ?? "Unknown Field"}>
+              {field ? (
+                <img src={field.image} alt={field.field} />
+              ) : (
+                <QuestionMark />
+              )}
             </Tooltip>
           </Box>
           <img
